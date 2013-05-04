@@ -1,4 +1,4 @@
-
+package net.gadgil.cgoptprice
 
 import org.apache.commons.math3.distribution.NormalDistribution
 
@@ -18,10 +18,14 @@ class BlackScholes {
     stockPrice * nd1 -
       strikePrice * math.exp(-riskFreeRate * timeToExpiry) * nd2
   }
-  
+
+  def callPrice(strikePrice: Double, riskFreeRate: Double, timeToExpiry: Double, d1: Double, d2: Double) = {
+    val x = (1, 2, 3, 4)
+  }
+
   def CND(X: Double) = {
-        val theNormalDistribution = new NormalDistribution
-        theNormalDistribution.cumulativeProbability(X)
+    val theNormalDistribution = new NormalDistribution
+    theNormalDistribution.cumulativeProbability(X)
   }
 
   // Approximation of the cumulative normal distribution function 
