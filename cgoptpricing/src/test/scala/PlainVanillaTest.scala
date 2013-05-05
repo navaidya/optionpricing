@@ -8,9 +8,9 @@ import org.junit.runner.RunWith
 @RunWith(classOf[JUnitRunner])
 class PlainVanillaTest extends Spec with ShouldMatchers {
 
-  describe("you description here") {
-    it("should do something") {
-      "Hello world" should equal("Hello world")
+  describe("Placeholder for JUnit based tests") {
+    it("should run test cases") {
+      "1" should equal("1")
     }
   }
 }

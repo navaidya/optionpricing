@@ -23,7 +23,7 @@ OsgiKeys.exportPackage := Seq("net.gadgil.cgoptprice")
 libraryDependencies ++= Seq(
 	"org.osgi" % "org.osgi.core" % "4.3.0" % "provided",
 	"org.apache.felix" % "org.apache.felix.framework" % "4.0.3" % "runtime",
-      "org.apache.commons" % "commons-math3" % "3.0",
+      "org.apache.commons" % "commons-math3" % "3.2",
   "junit" % "junit" % "4.11" % "test",
   "org.specs2" %% "specs2" % "1.14" % "test",
   "org.scalatest" %% "scalatest" % "1.9.1" % "test"

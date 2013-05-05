@@ -3,7 +3,8 @@ package net.gadgil.cgoptprice
 import org.apache.commons.math3.distribution.NormalDistribution
 
 object BlackScholes {
-  def callOption(stockPrice: Double,
+
+  private def d1d2(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
     riskFreeRate: Double,
@@ -12,11 +13,26 @@ object BlackScholes {
       (riskFreeRate + math.pow(volatility, 2) / 2) * timeToExpiry) / (volatility * math.sqrt(timeToExpiry))
     //Console.println(d1)
     val d2 = d1 - volatility * math.sqrt(timeToExpiry)
-    val nd1 = CND(d1)
-    val nd2 = CND(d2)
-    //Console.println(nd1, nd2)
-    stockPrice * nd1 -
-      strikePrice * math.exp(-riskFreeRate * timeToExpiry) * nd2
+    (d1, d2)
+  }
+
+  def callOption(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    riskFreeRate: Double,
+    volatility: Double) = {
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, riskFreeRate, volatility)
+    stockPrice * CND(d1) -
+      strikePrice * math.exp(-riskFreeRate * timeToExpiry) * CND(d2)
+  }
+
+  def putOption(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    riskFreeRate: Double,
+    volatility: Double) = {
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, riskFreeRate, volatility)
+    strikePrice * math.exp(-riskFreeRate * timeToExpiry) * CND(-d2) - stockPrice * CND(-d1)
   }
 
   def callPrice(strikePrice: Double, riskFreeRate: Double, timeToExpiry: Double, d1: Double, d2: Double) = {
