@@ -7,44 +7,61 @@ object BlackScholes {
   private def d1d2(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
-    riskFreeRate: Double,
+    discountRate: Double,
     volatility: Double) = {
     val d1 = (math.log(stockPrice / strikePrice) +
-      (riskFreeRate + math.pow(volatility, 2) / 2) * timeToExpiry) / (volatility * math.sqrt(timeToExpiry))
+      (discountRate + math.pow(volatility, 2) / 2) * timeToExpiry) / (volatility * math.sqrt(timeToExpiry))
     //Console.println(d1)
     val d2 = d1 - volatility * math.sqrt(timeToExpiry)
     (d1, d2)
   }
 
+  /**
+   * Black Scholes call option price
+   * @param stockPrice - current price of the underlying stock
+   * @param strikePrice - option strike price
+   * @param timeToExpiry - option time to expiry
+   * @param discoutRate - the discount rate. Normally the risk free rate
+   * @param volatility - the volatility of the price
+   */
   def callOption(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
-    riskFreeRate: Double,
+    discountRate: Double,
     volatility: Double) = {
-    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, riskFreeRate, volatility)
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, discountRate, volatility)
     stockPrice * CND(d1) -
-      strikePrice * math.exp(-riskFreeRate * timeToExpiry) * CND(d2)
+      strikePrice * math.exp(-discountRate * timeToExpiry) * CND(d2)
   }
 
+  /**
+   * Black Scholes put option price
+   * @param stockPrice - current price of the underlying stock
+   * @param strikePrice - option strike price
+   * @param timeToExpiry - option time to expiry
+   * @param discoutRate - the discount rate. Normally the risk free rate
+   * @param volatility - the volatility of the price
+   */
   def putOption(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
-    riskFreeRate: Double,
+    discountRate: Double,
     volatility: Double) = {
-    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, riskFreeRate, volatility)
-    strikePrice * math.exp(-riskFreeRate * timeToExpiry) * CND(-d2) - stockPrice * CND(-d1)
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, discountRate, volatility)
+    strikePrice * math.exp(-discountRate * timeToExpiry) * CND(-d2) - stockPrice * CND(-d1)
   }
 
-  def callPrice(strikePrice: Double, riskFreeRate: Double, timeToExpiry: Double, d1: Double, d2: Double) = {
-    val x = (1, 2, 3, 4)
-  }
-
+  /**
+   * Cumulative normal distribution value
+   */
   def CND(X: Double) = {
     val theNormalDistribution = new NormalDistribution
     theNormalDistribution.cumulativeProbability(X)
   }
 
-  // Approximation of the cumulative normal distribution function 
+  /**
+   * fast approximation of the cumulative normal distribution function
+   */
   def CNDApprox(X: Double) = {
     val a1 = 0.31938153
     val a2 = -0.356563782
