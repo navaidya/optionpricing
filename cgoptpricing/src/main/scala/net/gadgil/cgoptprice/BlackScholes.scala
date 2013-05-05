@@ -2,7 +2,7 @@ package net.gadgil.cgoptprice
 
 import org.apache.commons.math3.distribution.NormalDistribution
 
-class BlackScholes {
+object BlackScholes {
   def callOption(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -48,3 +48,4 @@ class BlackScholes {
   }
 
 }
+

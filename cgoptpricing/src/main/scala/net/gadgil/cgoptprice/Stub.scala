@@ -1,4 +1,4 @@
-package net.gadgil
+package net.gadgil.cgoptprice
 
 object Stub {
   def main(args: Array[String]) {
