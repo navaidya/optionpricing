@@ -12,6 +12,9 @@ name := "options.pricing"
 
 version := "0.0.1"
 
+
+publishTo := Some(Resolver.file("file",  new File( "./releases" )) )
+
 //libraryDependencies += "org.osgi" % "org.osgi.core" % "4.3.0" % "provided"
 
 osgiSettings
