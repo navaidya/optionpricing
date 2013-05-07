@@ -37,3 +37,11 @@ OsgiKeys.additionalHeaders := Map(
 	"Conditional-Package" -> "scala.*"
 )
 
+OsgiKeys.importPackage := Seq(
+	"sun.misc;resolution:=optional",
+	"!aQute.bnd.annotation.*", 
+	"*"
+)
+
+
+
