@@ -21,7 +21,7 @@ class PlainVanillaSpec extends Specification {
     }
     
     "generic black-scholes call" in {
-      val x = BlackScholes.callOptionGeneralizedBlackScholes(60, 65, 0.25, 0.08, 0.0, 0.3)
+      val x = BlackScholes.callOptionGeneralizedBlackScholes(60, 65, 0.25, 0.08, 0.08, 0.3)
       math.abs(2.1334 - x) must be lessThan 0.0001
     }
 
