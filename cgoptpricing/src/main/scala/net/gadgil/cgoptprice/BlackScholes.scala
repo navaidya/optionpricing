@@ -52,6 +52,44 @@ object BlackScholes {
   }
 
   /**
+   * Generalized Black Scholes European call option paying a continuous dividend yield
+   * Can be used to price European options on stocks with continuous dividend yield, options on futures and currency options
+   * @param costOfCarry - Cost of carry
+   * 	set this to discountRate for regular Black-Scholes price
+   *    set this to (discountRate - dividendYield) - for stocks with continuous dividend yield
+   *    set this to 0 for the Black-Scholes futures option
+   *    set this to (discountRate - discountRateInForeignCurrency) for currency option
+   */
+  def callOptionGeneralizedBlackScholes(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * CND(d1) - strikePrice * math.exp(-discountRate * timeToExpiry) * CND(d2)
+  }
+
+  /**
+   * Generalized Black Scholes European put option paying a continuous dividend yield
+   * Can be used to price European options on stocks with continuous dividend yield, options on futures and currency options
+   * @param costOfCarry - Cost of carry
+   * 	set this to discountRate for regular Black-Scholes price
+   *    set this to (discountRate - dividendYield) - for stocks with continuous dividend yield
+   *    set this to 0 for the Black-Scholes futures option
+   *    set this to (discountRate - discountRateInForeignCurrency) for currency option
+   */
+  def putOptionGeneralizedBlackScholes(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    strikePrice * math.exp(-discountRate * timeToExpiry) * CND(-d2) - stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * CND(-d1)
+  }
+
+  /**
    * Cumulative normal distribution value
    */
   def CND(X: Double) = {

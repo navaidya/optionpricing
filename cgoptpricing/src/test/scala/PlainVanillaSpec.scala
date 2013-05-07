@@ -19,6 +19,11 @@ class PlainVanillaSpec extends Specification {
       //Console.println(x)
       math.abs(1.39866 - x) must be lessThan 0.0001
     }
+    
+    "generic black-scholes" in {
+      val x = BlackScholes.putOptionGeneralizedBlackScholes(75, 70, 0.5, 0.1, 0.05, 0.35)
+      math.abs(4.0870 - x) must be lessThan 0.0001
+    }
   }
   
   "Stock Price Adjustments" should {
