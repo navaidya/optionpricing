@@ -171,4 +171,25 @@ object OptionSensitivities {
     val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
     math.exp((costOfCarry - discountRate) * timeToExpiry) * (BlackScholes.CND(d1) - 1)
   }
+
+  def elasticityCall(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    deltaCall(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility) * stockPrice /
+      BlackScholes.callOptionGeneralizedBlackScholes(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
+  }
+
+  def elasticityPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    deltaPut(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility) * stockPrice / 
+    BlackScholes.putOptionGeneralizedBlackScholes(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
+
+  }
 }
