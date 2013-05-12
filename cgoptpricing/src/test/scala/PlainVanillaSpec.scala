@@ -3,6 +3,7 @@ package net.gadgil
 import org.specs2.mutable._
 import net.gadgil.cgoptprice.BlackScholes
 import net.gadgil.cgoptprice.PlainVanilla
+import net.gadgil.cgoptprice.OptionSensitivities
 
 class PlainVanillaSpec extends Specification {
 
@@ -28,6 +29,13 @@ class PlainVanillaSpec extends Specification {
     "generic black-scholes put" in {
       val x = BlackScholes.putOptionGeneralizedBlackScholes(75, 70, 0.5, 0.1, 0.05, 0.35)
       math.abs(4.0870 - x) must be lessThan 0.0001
+    }
+    
+    "delta test" in {
+      val theDeltaCall = OptionSensitivities.deltaCall(105, 100, 0.5, 0.1, 0, 0.36)
+      val theDeltaPut = OptionSensitivities.deltaPut(105, 100, 0.5, 0.1, 0, 0.36)
+      math.abs(0.5946 - theDeltaCall) must be lessThan 0.0001
+      math.abs(-0.3566 - theDeltaPut) must be lessThan 0.0001
     }
   }
   

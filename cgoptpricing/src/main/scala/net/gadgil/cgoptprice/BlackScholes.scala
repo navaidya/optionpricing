@@ -5,7 +5,7 @@ import scala.collection.JavaConversions._
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
 
 object BlackScholes {
-  private def d1d2(stockPrice: Double,
+  def d1d2(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
     discountRate: Double,
@@ -151,3 +151,24 @@ object BlackScholes {
 
 }
 
+object OptionSensitivities {
+  def deltaCall(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    math.exp((costOfCarry - discountRate) * timeToExpiry) * BlackScholes.CND(d1)
+  }
+
+  def deltaPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    math.exp((costOfCarry - discountRate) * timeToExpiry) * (BlackScholes.CND(d1) - 1)
+  }
+}
