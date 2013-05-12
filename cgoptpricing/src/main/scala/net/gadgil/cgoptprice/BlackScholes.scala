@@ -1,9 +1,10 @@
 package net.gadgil.cgoptprice
 
 import org.apache.commons.math3.distribution.NormalDistribution
+import scala.collection.JavaConversions._
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation
 
 object BlackScholes {
-
   private def d1d2(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -87,6 +88,36 @@ object BlackScholes {
     volatility: Double) = {
     val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
     strikePrice * math.exp(-discountRate * timeToExpiry) * CND(-d2) - stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * CND(-d1)
+  }
+
+  def callOptionDelta(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    math.exp(1.0)
+  }
+
+  /**
+   * Calculate the price volatility.
+   * @param dataSeries - typically contains the daily prices
+   * @param numPeriods - the number of periods to calculate the volatility. Usually 252 for the number of trading days in a year
+   */
+  def volatility(dataSeries: Seq[Double], numPeriods: Double) = {
+    def percentChangeSeries(dataSeries: Seq[Double]) = {
+      def percentChange(oldValue: Double, newValue: Double) = {
+        (oldValue - newValue) / oldValue
+      }
+      (1 until dataSeries.length) map { i =>
+        percentChange(dataSeries(i - 1), dataSeries(i))
+      }
+    }
+
+    val changeSeries = percentChangeSeries(dataSeries)
+    val theStdDev = new StandardDeviation()
+    theStdDev.evaluate(dataSeries.toArray) * math.sqrt(numPeriods)
   }
 
   /**

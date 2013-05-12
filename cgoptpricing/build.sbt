@@ -34,7 +34,7 @@ libraryDependencies ++= Seq(
 
 OsgiKeys.additionalHeaders := Map(
 	"Service-Component" -> "*",
-	"Conditional-Package" -> "scala.*"
+	"Conditional-Package" -> "scala.*,org.apache.commons.math3.*"
 )
 
 OsgiKeys.importPackage := Seq(
