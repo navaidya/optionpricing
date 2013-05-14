@@ -205,4 +205,15 @@ object OptionSensitivities {
     val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
     stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * OptionSensitivities.nprime(d1) * math.sqrt(timeToExpiry)
   }
+
+  def gammaCallPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    (math.exp((costOfCarry - discountRate) * timeToExpiry) * OptionSensitivities.nprime(d1)) /
+      (stockPrice * volatility * math.sqrt(timeToExpiry))
+  }
 }
