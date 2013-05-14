@@ -188,8 +188,21 @@ object OptionSensitivities {
     discountRate: Double,
     costOfCarry: Double,
     volatility: Double) = {
-    deltaPut(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility) * stockPrice / 
-    BlackScholes.putOptionGeneralizedBlackScholes(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
+    deltaPut(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility) * stockPrice /
+      BlackScholes.putOptionGeneralizedBlackScholes(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
+  }
 
+  def nprime(theD: Double) = {
+    (1 / math.sqrt(2 * math.Pi)) * math.exp(-theD * theD / 2)
+  }
+
+  def vegaCallPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * OptionSensitivities.nprime(d1) * math.sqrt(timeToExpiry)
   }
 }

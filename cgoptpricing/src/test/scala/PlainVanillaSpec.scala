@@ -31,6 +31,12 @@ class PlainVanillaSpec extends Specification {
       math.abs(4.0870 - x) must be lessThan 0.0001
     }
     
+    "distributions" in {
+      val theNPrime = OptionSensitivities.nprime(0.2387)
+      math.abs(0.3877 - theNPrime) must be lessThan 0.0001
+      math.abs(0.3975 - OptionSensitivities.nprime(0.0837)) must be lessThan 0.0001
+    }
+    
     "Sensitivities test" in {
       val (stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility) = (105.0, 100.0, 0.5, 0.1, 0.0, 0.36)
       val theDeltaCall = OptionSensitivities.deltaCall(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
@@ -40,6 +46,9 @@ class PlainVanillaSpec extends Specification {
       val theElasticityCall = OptionSensitivities.elasticityCall(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
       val theElasticityPut = OptionSensitivities.elasticityPut(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
       math.abs(-4.8775 - theElasticityPut) must be lessThan 0.0001
+      val (stockPrice2, strikePrice2, timeToExpiry2, discountRate2, costOfCarry2, volatility2) = (55.0, 60.0, 0.75, 0.1, 0.1, 0.3)
+      val theVegaCallPut = OptionSensitivities.vegaCallPut(stockPrice2, strikePrice2, timeToExpiry2, discountRate2, costOfCarry2, volatility2)
+      math.abs(18.9358 - theVegaCallPut) must be lessThan 0.0001
     }
   }
   
