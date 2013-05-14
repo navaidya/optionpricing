@@ -152,6 +152,9 @@ object BlackScholes {
 }
 
 object OptionSensitivities {
+  /**
+   * Delta of the call option
+   */
   def deltaCall(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -162,6 +165,9 @@ object OptionSensitivities {
     math.exp((costOfCarry - discountRate) * timeToExpiry) * BlackScholes.CND(d1)
   }
 
+  /**
+   * Delta of the put option
+   */
   def deltaPut(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -172,6 +178,9 @@ object OptionSensitivities {
     math.exp((costOfCarry - discountRate) * timeToExpiry) * (BlackScholes.CND(d1) - 1)
   }
 
+  /**
+   * Elasticity of the call option
+   */
   def elasticityCall(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -182,6 +191,9 @@ object OptionSensitivities {
       BlackScholes.callOptionGeneralizedBlackScholes(stockPrice, strikePrice, timeToExpiry, discountRate, costOfCarry, volatility)
   }
 
+  /**
+   * Elasticity of the put option
+   */
   def elasticityPut(stockPrice: Double,
     strikePrice: Double,
     timeToExpiry: Double,
@@ -215,5 +227,69 @@ object OptionSensitivities {
     val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
     (math.exp((costOfCarry - discountRate) * timeToExpiry) * OptionSensitivities.nprime(d1)) /
       (stockPrice * volatility * math.sqrt(timeToExpiry))
+  }
+
+  def thetaCall(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    -(stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * nprime(d1) * volatility) / (2 * math.sqrt(timeToExpiry)) -
+      (costOfCarry - discountRate) * stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * BlackScholes.CND(d1) -
+      discountRate * strikePrice *math.exp(-discountRate*timeToExpiry) * BlackScholes.CND(d2)
+  }
+
+  def thetaPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+    -(stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * nprime(d1) * volatility) / (2 * math.sqrt(timeToExpiry)) +
+      (costOfCarry - discountRate) * stockPrice * math.exp((costOfCarry - discountRate) * timeToExpiry) * BlackScholes.CND(-d1) +
+      discountRate * strikePrice *math.exp(-discountRate*timeToExpiry) * BlackScholes.CND(-d2)
+  }
+
+  def rhoCall(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+
+  }
+
+  def rhoPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+
+  }
+
+  def costOfCarrySensitivityCall(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+
+  }
+
+  def costOfCarrySensitivityPut(stockPrice: Double,
+    strikePrice: Double,
+    timeToExpiry: Double,
+    discountRate: Double,
+    costOfCarry: Double,
+    volatility: Double) = {
+    val (d1, d2) = BlackScholes.d1d2(stockPrice, strikePrice, timeToExpiry, costOfCarry, volatility)
+
   }
 }
