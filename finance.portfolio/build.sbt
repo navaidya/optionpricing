@@ -16,6 +16,7 @@ OsgiKeys.exportPackage := Seq("net.gadgil.finance.portfolio")
 scalaVersion := "2.10.1"
 
 libraryDependencies ++= Seq(
+   "org.apache.camel" % "camel-http4" % "2.11.0",
   "junit" % "junit" % "4.11" % "test",
   "org.specs2" %% "specs2" % "1.14" % "test",
   "org.scalatest" %% "scalatest" % "1.9.1" % "test"
@@ -29,6 +30,11 @@ OsgiKeys.additionalHeaders := Map(
 OsgiKeys.importPackage := Seq(
 	"sun.misc;resolution:=optional",
 	"!aQute.bnd.annotation.*", 
+	"org.apache.camel.*", 
 	"*"
 )
+
+scalacOptions += "-feature" 
+
+scalacOptions += "-deprecation" 
 
