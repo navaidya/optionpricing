@@ -20,6 +20,7 @@ libraryDependencies ++= Seq(
    "joda-time" % "joda-time" % "2.2",
    "com.ning" % "async-http-client" % "1.7.15",
    "org.apache.camel" % "camel-http4" % "2.11.0",
+   "org.joda" % "joda-convert" % "1.3.1",
   "junit" % "junit" % "4.11" % "test",
   "org.specs2" %% "specs2" % "1.14" % "test",
   "org.scalatest" %% "scalatest" % "1.9.1" % "test"
