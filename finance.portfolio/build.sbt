@@ -12,10 +12,13 @@ osgiSettings
 
 OsgiKeys.exportPackage := Seq("net.gadgil.finance.portfolio")
 
+resolvers += "mvnepository" at "http://mvnrepository.com/artifact"
 
 scalaVersion := "2.10.1"
 
 libraryDependencies ++= Seq(
+   "joda-time" % "joda-time" % "2.2",
+   "com.ning" % "async-http-client" % "1.7.15",
    "org.apache.camel" % "camel-http4" % "2.11.0",
   "junit" % "junit" % "4.11" % "test",
   "org.specs2" %% "specs2" % "1.14" % "test",
