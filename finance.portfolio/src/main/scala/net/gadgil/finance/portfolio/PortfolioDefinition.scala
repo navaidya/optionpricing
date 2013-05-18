@@ -15,11 +15,15 @@ object PortfolioDefinition extends JavaTokenParsers {
       ""
   }
   def portfolioComposition: Parser[Any] = position.+
-  def position: Parser[Any] = ("long" | "short") ~ ident ~ decimalNumber ~ onDate1 ^^ {
-    case positionType ~ symbol ~ numShares ~ theDate => { println(positionType, symbol, numShares, theDate) }
+  def position: Parser[Any] = ("long" | "short") ~ ident ~ decimalNumber ~ ("shares" | "dollars") ~ onDate1 ^^ {
+    case positionType ~ symbol ~ numShares ~ sharesOrDollars ~ theDate => { println(positionType, symbol, numShares, sharesOrDollars, theDate) }
   }
-  def onDate1: Parser[String] = new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})") ^^ { nim =>
-    println(nim)
-    nim
+  def onDate1: Parser[List[String]] = new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})") ^^ { nim =>
+    val r = new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})")
+    val y = List("DD")
+    val x = r.findFirstMatchIn(nim).fold(y){xxx => xxx.subgroups}
+    println(x.toList)
+    //nim
+    x
   }
 }
