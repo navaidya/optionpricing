@@ -17,9 +17,24 @@
             <version>2.10.1</version>
         </dependency>
         <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>1.7.15</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-http4</artifactId>
             <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-convert</artifactId>
+            <version>1.3.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -40,4 +55,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>mvnepository</id>
+            <name>mvnepository</name>
+            <url>http://mvnrepository.com/artifact/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
 </project>
