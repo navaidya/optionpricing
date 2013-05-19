@@ -3,6 +3,10 @@ package net.gadgil.finance.portfolio
 import scala.util.parsing.combinator.JavaTokenParsers
 import scala.util.matching.Regex
 import org.joda.time.DateTime
+import com.ning.http.client.AsyncHttpClient
+import org.supercsv.io.CsvMapReader
+import java.io.InputStreamReader
+import org.supercsv.prefs.CsvPreference
 
 class PortfolioDefinition {
 
@@ -34,9 +38,41 @@ case class PortfolioPosition(positionType: String, symbol: String, amount: Doubl
 
 object PortfolioProcessor {
   def getHistoricalPrices(symbol: String, fromDate: DateTime, toDate: DateTime = DateTime.now()) = {
+    val theCurrentDate = new DateTime()
+    // Example: http://finance.yahoo.com/q/hp?s=MSFT&a=01&b=3&c=2005&d=01&e=3&f=2013&g=m
+    // http://ichart.finance.yahoo.com/table.csv?s=MSFT&a=1&b=4&c=2006&d=1&e=4&f=2013&g=m&ignore=.csv
+    // Example: http://finance.yahoo.com/q/hp?s=<SYMBOL>&a=<FROM-MONTH-1>&b=<FROM-DAY>&c=<FROM-YEAR>&d=<TO-MONTH-1>&e=<TO-DAY>&f=<TO-YEAR>&g=m
+    val theUrlTemplate = "http://ichart.finance.yahoo.com/table.csv?s=%s&a=%d&b=%d&c=%d&d=%d&e=%d&f=%d&g=m&ignore=.csv"
+    val theYahooHistoricalPriceUrl = theUrlTemplate.format(
+      symbol,
+      theCurrentDate.monthOfYear().get() - 1,
+      theCurrentDate.dayOfMonth().get(),
+      theCurrentDate.year().get() - 7,
+      theCurrentDate.monthOfYear().get() - 1,
+      theCurrentDate.dayOfMonth().get(),
+      theCurrentDate.year().get())
+    val ahc = new AsyncHttpClient
+    val theQueryParameters: Map[String, String] = Map("s" -> symbol,
+      "a" -> String.valueOf(fromDate.monthOfYear().get() - 1),
+      "b" -> String.valueOf(fromDate.dayOfMonth().get()),
+      "c" -> String.valueOf(fromDate.year().get()),
+      "d" -> String.valueOf(toDate.monthOfYear().get() - 1),
+      "e" -> String.valueOf(toDate.dayOfMonth().get()),
+      "f" -> String.valueOf(toDate.year().get()))
+    val theGetRequest = ahc.prepareGet(theYahooHistoricalPriceUrl)
+    theQueryParameters.map { f => theGetRequest.addQueryParameter(f._1, f._2) }
+    val theCSV = theGetRequest.execute().get().getResponseBodyAsStream()
+    val theCSVReader = new CsvMapReader(new InputStreamReader(theCSV), CsvPreference.STANDARD_PREFERENCE)
+    val theHeader = theCSVReader.getHeader(true)
+    //final String[] header = mapReader.getHeader(true);
+                //final CellProcessor[] processors = getProcessors();
     
+    //val x:Seq[Map[String, String]] = theCSVReader.
+    val iterator = Iterator.continually(theCSVReader.read(theHeader: _*)).takeWhile(_ != null)
+    //theHeader
+    iterator.toArray
   }
-  
+
   def parsePortfolio(portfolioDefinitionString: String): PortfolioInfo = {
     PortfolioDefinition.parseAll(PortfolioDefinition.portfolioStruct, portfolioDefinitionString).get
   }

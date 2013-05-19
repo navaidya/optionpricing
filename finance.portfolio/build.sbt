@@ -10,7 +10,7 @@ publishTo := Some(Resolver.file("file",  new File( "./releases" )) )
 
 osgiSettings
 
-OsgiKeys.exportPackage := Seq("net.gadgil.finance.portfolio")
+OsgiKeys.exportPackage := Seq("net.gadgil.finance.portfolio.*")
 
 resolvers += "mvnepository" at "http://mvnrepository.com/artifact"
 
@@ -18,6 +18,7 @@ scalaVersion := "2.10.1"
 
 libraryDependencies ++= Seq(
    "joda-time" % "joda-time" % "2.2",
+   "net.sf.supercsv" % "super-csv" % "2.1.0",
    "com.ning" % "async-http-client" % "1.7.15",
    "org.apache.camel" % "camel-http4" % "2.11.0",
    "org.joda" % "joda-convert" % "1.3.1",
