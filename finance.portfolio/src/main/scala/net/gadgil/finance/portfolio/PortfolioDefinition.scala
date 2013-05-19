@@ -7,6 +7,7 @@ import com.ning.http.client.AsyncHttpClient
 import org.supercsv.io.CsvMapReader
 import java.io.InputStreamReader
 import org.supercsv.prefs.CsvPreference
+import scala.collection.JavaConversions._
 
 class PortfolioDefinition {
 
@@ -63,14 +64,35 @@ object PortfolioProcessor {
     theQueryParameters.map { f => theGetRequest.addQueryParameter(f._1, f._2) }
     val theCSV = theGetRequest.execute().get().getResponseBodyAsStream()
     val theCSVReader = new CsvMapReader(new InputStreamReader(theCSV), CsvPreference.STANDARD_PREFERENCE)
-    val theHeader = theCSVReader.getHeader(true)
+    //val theHeader = theCSVReader.getHeader(true)
     //final String[] header = mapReader.getHeader(true);
-                //final CellProcessor[] processors = getProcessors();
-    
+    //final CellProcessor[] processors = getProcessors();
+
     //val x:Seq[Map[String, String]] = theCSVReader.
-    val iterator = Iterator.continually(theCSVReader.read(theHeader: _*)).takeWhile(_ != null)
-    //theHeader
-    iterator.toArray
+    class CsvIterator(csvMapReader: CsvMapReader) extends Iterator[Map[String, String]] {
+      val header = csvMapReader.getHeader(true)
+      var _next: Map[String, String] = null;
+      def next = {
+        _next
+      }
+
+      def hasNext = {
+        val x = csvMapReader.read(header: _*)
+        if (x == null) {
+          _next = null
+          false
+        } else {
+          _next = x.toMap
+          true
+        }
+      }
+    }
+//    val iterator = Iterator.continually(theCSVReader.read(theHeader: _*)).takeWhile(_ != null)
+//    val x = iterator.map { m =>
+//      m.toMap
+//    }
+    val theIterator = new CsvIterator(theCSVReader)
+    theIterator.toArray
   }
 
   def parsePortfolio(portfolioDefinitionString: String): PortfolioInfo = {
