@@ -58,7 +58,10 @@ This allows a very easy way to document the scenarios and use the same specifica
 
 ###**openoptions** at https://github.com/cgadgil/optionpricing/tree/master/openoptions
 
-RESTful API and visualization tools. The goal of this sub-project is to make all the above APIs as a scalable grid of RESTful APIs. The market data feeds, parsers and the pricers will be tied to a high speed messaging bus (Apollo).
+RESTful API and visualization tools.
+The goal of this sub-project is to make all the above APIs as a scalable grid of RESTful APIs.
+The market data feeds, parsers and the pricers will be tied to a 
+high speed messaging bus (Apollo: http://activemq.apache.org/apollo/).
 
 This project is being implemented in Scala 2.10.1 with the Play framework.
 
