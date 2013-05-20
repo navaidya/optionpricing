@@ -1,5 +1,6 @@
 #Open Source Derivatives Pricing Library 
 **Available and maintained under the MIT License**
+*Copyright (c) 2013 Chetan Gadgil*
 
 Well tested Open source Derivatives Pricing libraries available under the MIT License.
 * This libraries are packaged as OSGi bundles. These have been tested on Apache Karaf (Felix) 2.3.0.
