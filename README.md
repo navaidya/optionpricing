@@ -1,4 +1,4 @@
-#Open source Derivatives Pricing Library
+#Open Source Derivatives Pricing Library available and maintained under the MIT License
 
 Well tested Open source Derivatives Pricing libraries available under the MIT License.
 * This libraries are packaged as OSGi bundles. These have been tested on Apache Karaf (Felix) 2.3.0.
@@ -15,7 +15,7 @@ The set of libraries has been in implemented in Scala 2.10.1. However, it can be
 ## Organization of libraries
 
 
-### cgoptpricing at https://github.com/cgadgil/optionpricing/tree/master/cgoptpricing
+1. **cgoptpricing at https://github.com/cgadgil/optionpricing/tree/master/cgoptpricing**
   
 This is the base derivatives pricing library. These are the goals of release 0.5 (July 2013)
 
@@ -40,11 +40,17 @@ This is the base derivatives pricing library. These are the goals of release 0.5
     - Cost of carry (sensitivity)
 
 
-### finance.portfolio at https://github.com/cgadgil/optionpricing/tree/master/finance.portfolio
+1. **finance.portfolio at https://github.com/cgadgil/optionpricing/tree/master/finance.portfolio
 
-This is the portfolio modeling library.
+This is the portfolio modeling library. This allows you to quickly create Back-testing scenarios against historical market data.
+For example to backtest the return of an equities portfolio composed of several long or short equities positions:
+
+      portfolio pf1
+      long CSCO $ 1000 2008-02-02
+      long MSFT $ 1000  2008-02-02
+      short GE $ 1000 2008-02-02"
 
 
-* https://github.com/cgadgil/optionpricing/tree/master/openoptions
+1. **RESTful API and visualization tools at https://github.com/cgadgil/optionpricing/tree/master/openoptions
  
 
