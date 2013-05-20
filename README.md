@@ -18,7 +18,7 @@ The set of libraries has been in implemented in Scala 2.10.1. However, it can be
 
 1. **cgoptpricing** at https://github.com/cgadgil/optionpricing/tree/master/cgoptpricing
 This is the base derivatives pricing library. These are the goals of release 0.5 (July 2013)
-+ Have pricers available for 
+  + Have pricers available for 
     - Black Scholes (basic - does anyone even use Black-Scholes ;)), 
     - American options
     - Options on Options
@@ -39,7 +39,7 @@ This is the base derivatives pricing library. These are the goals of release 0.5
     - Cost of carry (sensitivity)
 1. **finance.portfolio** at https://github.com/cgadgil/optionpricing/tree/master/finance.portfolio
 This is the portfolio modeling library. This allows you to quickly create Back-testing scenarios against historical market data.
-The library is quite powerful and includes a *domain specific language parser* for modeling scenarios.
+The library is quite powerful and includes a *domain specific language parser* for modeling scenarios. Market data is dynamically pulled in from public sources (MSN, Yahoo/Google finance).
 For example to backtest the return of an equities portfolio composed of several long or short equities positions:
       portfolio pf1
       long THRM USD 10000 2010-12-14 at 11.14
@@ -50,5 +50,7 @@ For example to backtest the return of an equities portfolio composed of several 
 Providing the above portfolio specification as a string to the scenario tester will produce a report of the returns of the portfolio over a given period of time.
 This allows a very easy way to document the scenarios and use the same specification in the documentation as well as the actual test code.
 1. **openoptions** at https://github.com/cgadgil/optionpricing/tree/master/openoptions
- RESTful API and visualization tools at
+RESTful API and visualization tools. The goal of this sub-project is to make all the above APIs as a scalable grid of RESTful APIs. The market data feeds, parsers and the pricers will be tied to a high speed messaging bus (Apollo).
+This project is being implemented in Scala 2.10.1 with the Play framework.
+
 
