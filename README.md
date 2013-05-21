@@ -17,6 +17,10 @@ The set of libraries has been in implemented in Scala 2.10.1. However, it can be
 
 ## Organization of libraries
 
+###**scenariomodeling** at https://github.com/cgadgil/optionpricing/tree/master/scenariomodeling
+Note: This library depends on Jasper Reports which is available under LGPL 3.0.
+It allows you to use the libraries below to create and test investment and trading strategies. For example you can define
+a portfolio composed of equity and/or derivatives positions and study the returns of that portfolio over a period of time.
 
 ###**cgoptpricing** at https://github.com/cgadgil/optionpricing/tree/master/cgoptpricing
 This is the base derivatives pricing library. These are the goals of release 0.5 (July 2013)
