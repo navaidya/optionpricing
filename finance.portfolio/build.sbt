@@ -16,6 +16,9 @@ resolvers += "mvnepository" at "http://mvnrepository.com/artifact"
 
 scalaVersion := "2.10.1"
 
+useGpg := true
+
+
 libraryDependencies ++= Seq(
    "joda-time" % "joda-time" % "2.2",
    "net.sf.supercsv" % "super-csv" % "2.1.0",
