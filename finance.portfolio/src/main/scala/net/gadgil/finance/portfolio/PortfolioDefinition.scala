@@ -19,13 +19,19 @@ object PortfolioDefinition extends JavaTokenParsers {
       PortfolioInfo(portfolioName, portfolioComposition)
   }
   def portfolioComposition: Parser[Seq[PortfolioPosition]] = position.+
-  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ^^ {
-    case positionType ~ symbol ~ currencyCode ~ amount ~ theDate => {
+  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ~ stopLoss ^^ {
+    case positionType ~ symbol ~ currencyCode ~ amount ~ theDate ~ theStopLoss => {
       //println(positionType, symbol, amount, theDate)
       PortfolioPosition(positionType, symbol, amount.toDouble, theDate)
     }
   }
-  def onDate1: Parser[DateTime] = new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})") ^^ { theDate =>
+
+  def stopLoss: Parser[Double] = "stop loss" ~> decimalNumber ~ "%".? ^^ {
+    case theStopLoss ~ isPercent =>
+      theStopLoss.toDouble * (isPercent.getOrElse("1")).toDouble
+  }
+
+  def onDate1: Parser[DateTime] = "on" ~> new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})") ^^ { theDate =>
     val r = new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})")
     val y = List("DD")
     val theMatchedGroups = r.findFirstMatchIn(theDate).fold(y) { xxx => xxx.subgroups }
@@ -87,10 +93,10 @@ object PortfolioProcessor {
         }
       }
     }
-//    val iterator = Iterator.continually(theCSVReader.read(theHeader: _*)).takeWhile(_ != null)
-//    val x = iterator.map { m =>
-//      m.toMap
-//    }
+    //    val iterator = Iterator.continually(theCSVReader.read(theHeader: _*)).takeWhile(_ != null)
+    //    val x = iterator.map { m =>
+    //      m.toMap
+    //    }
     val theIterator = new CsvIterator(theCSVReader)
     theIterator.toArray
   }
