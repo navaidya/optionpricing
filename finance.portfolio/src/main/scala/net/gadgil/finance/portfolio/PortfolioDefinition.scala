@@ -19,7 +19,7 @@ object PortfolioDefinition extends JavaTokenParsers {
       PortfolioInfo(portfolioName, portfolioComposition)
   }
   def portfolioComposition: Parser[Seq[PortfolioPosition]] = position.+
-  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ~ stopLoss ^^ {
+  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ~ stopLoss.? ^^ {
     case positionType ~ symbol ~ currencyCode ~ amount ~ theDate ~ theStopLoss => {
       //println(positionType, symbol, amount, theDate)
       PortfolioPosition(positionType, symbol, amount.toDouble, theDate)
@@ -28,7 +28,7 @@ object PortfolioDefinition extends JavaTokenParsers {
 
   def stopLoss: Parser[Double] = "stop loss" ~> decimalNumber ~ "%".? ^^ {
     case theStopLoss ~ isPercent =>
-      theStopLoss.toDouble * (isPercent.getOrElse("1")).toDouble
+      theStopLoss.toDouble * (if (isPercent.isDefined) { 0.01 } else { 1 })
   }
 
   def onDate1: Parser[DateTime] = "on" ~> new Regex("([0-9]{4})-([0-9]{2})-([0-9]{2})") ^^ { theDate =>
