@@ -19,10 +19,16 @@ object PortfolioDefinition extends JavaTokenParsers {
       PortfolioInfo(portfolioName, portfolioComposition)
   }
   def portfolioComposition: Parser[Seq[PortfolioPosition]] = position.+
-  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ~ stopLoss.? ^^ {
-    case positionType ~ symbol ~ currencyCode ~ amount ~ theDate ~ theStopLoss => {
+  def position: Parser[PortfolioPosition] = ("long" | "short") ~ ident ~ ident ~ decimalNumber ~ onDate1 ~ atPrice ~ stopLoss.? ^^ {
+    case positionType ~ symbol ~ currencyCode ~ amount ~ theDate ~ thePrice ~ theStopLoss => {
       //println(positionType, symbol, amount, theDate)
       PortfolioPosition(positionType, symbol, amount.toDouble, theDate)
+    }
+  }
+  
+  def atPrice: Parser[Double] = "at" ~> decimalNumber ^^ {
+    case thePrice => {
+      thePrice.toDouble
     }
   }
 
