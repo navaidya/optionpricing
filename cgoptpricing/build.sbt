@@ -12,6 +12,7 @@ name := "options.pricing"
 
 version := "0.0.1"
 
+useGpg := true
 
 publishTo := Some(Resolver.file("file",  new File( "./releases" )) )
 
